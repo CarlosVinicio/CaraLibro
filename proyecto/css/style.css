@@ -1,0 +1,31 @@
+.oculto {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
+
+
+/* css de las barras para mostrar los mesajes desplegable */
+
+.barraMostrada {
+    border: solid gray 1px;
+    background-color: #B0E0E6;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.cajaMostradaOculta {
+    display: none;
+}
+
+.cajaMostradaVisible {
+    display: block;
+    margin-top: 2px;
+    border: solid gray 1px;
+    padding: 15px;
+}
+
+
+/* Fin css barras para mostrar los mensajes desplegables*/

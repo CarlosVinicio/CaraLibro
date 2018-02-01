@@ -1,0 +1,123 @@
+/*ESSENTIALS*/
+html,body{
+	height: 100%;
+}
+body{
+	font-family: 'Raleway',"Helvetica Neue",Helvetica,Arial,sans-serif;
+	background-size: cover;
+	background-position:center;
+	background-color: #02132d;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-image: url("../img/main_bg.jpg");
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: #fff;
+	display: table;
+	width: 100%;
+}
+.vertical_center{
+	display: table-cell;
+	vertical-align: middle;
+}
+/*PROFILE WIDGET*/
+.profile_widget{
+	width: 400px;
+	padding: 75px 55px 70px 55px;
+	border-radius: 4px;
+	overflow: hidden;
+	text-align: center;
+	background-size: cover;
+	background-position: center;
+	background-color: #0e1b36;
+	background-repeat: no-repeat;
+	background-image: url("../img/widget_bg.jpg");
+	box-shadow: 0 50px 70px 0px rgba(0,0,0,0.7);
+	margin: 50px auto;
+}
+.pw_avatar{
+	width: 150px;
+	height: 150px;
+	overflow: hidden;
+	border-radius: 150px;
+	border: 3px solid #fff;
+	margin: 0 auto 35px auto;
+}
+.pw_avatar img{
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+.pw_info{
+	margin: 0 0 100px 0;
+}
+.pw_info h1{
+	margin: 0 0 8px 0;
+	font-size: 24px;
+}
+.pw_info h2{
+	margin: 0 0 10px 0;
+	font-size: 19px;
+	color: #678ec4;
+}
+.pw_tag{
+	margin: 0 0 10px 0;
+}
+.pw_info p{
+	margin: 0;
+	font-size: 14px;
+}
+
+/*PROFILE WIDGET SOCIAL*/
+.pw_social:before,.pw_social:after{
+	content: "";
+	display: table;
+}
+.pw_social:after{
+	clear: both;
+}
+.pw_social{
+	font-size: 33px;
+}
+.pw_social ul:before,.pw_social ul:after{
+	content: "";
+	display: table;
+}
+.pw_social ul:after{
+	clear: both;
+}
+.pw_social ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.pw_social li{
+	display: inline-block;
+	margin:0 50px 0 0;
+}
+.pw_social li:last-child{
+	margin: 0;
+}
+.pw_social li a{
+	transition:all 150ms ease;
+	color: #fff;
+	text-decoration: none;
+}
+.pw_twitter a:hover{
+	color: #55acee;
+}
+.pw_dribbble a:hover{
+	color: #ea4c89;
+}
+.pw_linkedin a:hover{
+	color: #0976b4;
+}
+.pw_facebook a:hover{
+	color: #3b5998;
+}
+.pw_instagram a:hover{
+	color: #3f729b;
+}
+.pw_github a:hover{
+	color: #6cc644;
+}

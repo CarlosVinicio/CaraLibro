@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8" >
+    <title> Restablecer contraseña </title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" >
+	<link rel="stylesheet" href="../../css/bootstrap-theme.min.css" >
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    
+    <script src="../../JavaScript/jquery-1.12.3.min.js"></script>
+    
+    <script type="text/javascript">
+		$(document).ready(function() {
+			$('#envio').click(function(e){
+				
+				var urlRecibida = document.location.href;
+				var id = 0;
+				var token = "";
+				var password1 = $('#password1').val();
+				var password2 = $('#password2').val();
+
+				//separador de las variables que llegan mediante la URL,al momento de hacer click en la url desde el correo
+				if (urlRecibida.indexOf('?') > 0) {
+					var urlPartida = urlRecibida.split('?');
+
+					if (urlPartida[1].indexOf('&') > 0) {
+						var trozosVariables = urlPartida[1].split('&');
+
+						id = trozosVariables[0];
+						token = trozosVariables[1];
+
+					    var idUsu = id.split('=');
+						var tokenFinal = token.split('=');
+						id = idUsu[1];
+						token = tokenFinal[1];
+
+					}
+				}
+
+				$.ajax({
+					method: "POST",
+					url: "cambiarpassword.php",
+					data: {
+						password1: password1,
+						password2: password2,
+						idusuario : id,
+						token: token
+					},
+					success:function(respuesta) {
+                        
+						if (respuesta.search('Error') == -1) {
+                            
+                             $('#respuesta').html('<div class="alert alert-success" role="alert">' + 'Contraseña cambiada correctamente' + "</div>");
+                            
+                            setTimeout(function () {
+                                window.location.href = "../loguin.html"; 
+                            }, 2500);
+                            
+                        } else {
+                             $('#respuesta').html('<div class="alert alert-danger" role="alert">' + respuesta + "</div>");
+                        }	
+					}
+				});
+
+
+			});
+		});
+	</script>
+</head>
+
+
+	<body>
+		
+		<div class="container">    
+		<div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
+		<div class="panel panel-info" >
+			<div class="panel-heading">
+				<div class="panel-title">Cambiar Password</div>
+				<div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="index.php">Iniciar Sesi&oacute;n</a></div>
+			</div>     
+			
+			<div style="padding-top:30px" class="panel-body" >
+				
+				<form id="loginform" class="form-horizontal" role="form" action="cambiarpassword.php" method="POST" autocomplete="off">
+
+					<div class="form-group">
+						<label for="password" class="col-md-3 control-label">Nuevo Password</label>
+						<div class="col-md-9">
+							<input type="password" class="form-control" name="password1" placeholder="Password" id="password1" required>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="password2" class="col-md-3 control-label">Confirmar Password</label>
+						<div class="col-md-9">
+							<input type="password" class="form-control" name="password2" id="password2" placeholder="Confirmar Password" required>
+						</div>
+					</div>
+
+                    <div id="respuesta">
+                        
+                    </div>
+                    
+					 <input type="hidden" name="token" value="<?php echo $token ?>">
+                     <input type="hidden" name="idusuario" value="<?php echo $idusuario ?>">
+
+					<div style="margin-top:10px" class="form-group">
+						<div class="col-sm-12 controls">
+							
+                            <input type="button" class="btn btn-primary" value="Recuperar contraseña" name = "confirmacion" id="envio">
+						</div>
+					</div>   
+				</form>
+			</div>                     
+		</div>  
+		</div>
+		</div>
+	</body>
+   
+</html>
+
+
+

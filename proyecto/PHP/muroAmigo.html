@@ -1,0 +1,79 @@
+<html>
+<head>
+	<title>Configuración de Usuario</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="style.css"/>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+	<div id="muro">
+		<div id="foto-muro">
+		</div>
+		<div id="datos-muro">
+		</div>
+		<div id="publicaciones">
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var imagen = ""
+			var nombre = ""
+			var apellidos = ""
+			$.ajax({
+				type: "GET",
+				async:false,
+				url: "obtener-imagen.php",
+				success: function(datos){
+					$('#foto-muro').append("<img src="+datos+" id='imagenMuro'>")
+					imagen = datos
+				}
+			})
+			$.ajax({
+				type: "GET",
+				async:false,
+				url: "obtener-datos.php",
+				success: function(datosAmigo){
+					var arraydatos = JSON.parse(datosAmigo);
+					$('#datos-muro').append("<div id='nombre'>"+arraydatos[0]+"</div>")
+					$('#datos-muro').append("<div id='apellidos'>"+arraydatos[1]+"</div>")
+					$('#datos-muro').append("<div id='fechaNacimiento'>"+arraydatos[2]+"</div>")
+					$('#datos-muro').append("<div id='sexo'>"+arraydatos[3]+"</div>")
+					nombre = arraydatos[0]
+					apellidos = arraydatos[1]
+				}
+			})
+			$.ajax({
+				type: "GET",
+				async:false,
+				url: "obtener-publicaciones.php",
+				success: function(publicaciones){
+					var arrayPublicaciones = JSON.parse(publicaciones);
+					if(arrayPublicaciones != false){
+						for (var i = 0; i < arrayPublicaciones.length; i++){
+							var publicacion = $("<div class='publicacion'></div>")
+							publicacion.append("<div class='fotoPublicacion'><img src="+imagen+" id='imagenPublicacion'></div>")
+							publicacion.append("<div class='nombreApellidos'>"+nombre+" "+apellidos+"</div>")
+							publicacion.append("<div class='idPublicacion'>"+arrayPublicaciones[i][2]+"</div>")
+							publicacion.append("<div class='fechaPublicacion'>"+arrayPublicaciones[i][3]+"</div>")
+							publicacion.append("<div class='meGusta'>"+arrayPublicaciones[i][4]+" Me gustas</div>")
+							publicacion.append("<div class='noMeGusta'>"+arrayPublicaciones[i][5]+" No me gustas</div>")
+							var comentarios = $("<div class='comentarios'></div>")
+							if(arrayPublicaciones[i][6] != false){
+								for(var j = 0; j < arrayPublicaciones[i][6].length; j++){
+									comentarios.append("<div class='comentario'><div class='fotoCreadorComentario'><img src="+arrayPublicaciones[i][6][j][9][2]+"></div><div class='nombreApellidosCreadorComentario'>"+arrayPublicaciones[i][6][j][9][0]+" "+arrayPublicaciones[i][6][j][9][1]+"<div class='meGustaComentario'>"+arrayPublicaciones[i][6][j][5]+" Me gusta</div><div class='noMeGustaComentario'>"+arrayPublicaciones[i][6][j][6]+" No me gusta</div><div class='textoComentario'>"+arrayPublicaciones[i][6][j][3]+"</div></div>")
+								}
+								publicacion.append(comentarios)
+							}else{
+								publicacion.append("<div id='sinComentarios'>Esta publicacion aun no tiene ningun comentario</div>")
+							}
+							$('#publicaciones').append(publicacion)
+						}
+					}else{
+						$('#publicaciones').append("<div id='sinPublicaciones'>Tu amigo aun no ha realizado ninguna publicación</div>")
+					}
+				}
+			})
+		})
+	</script>
+</body>
+</html>

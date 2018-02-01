@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link rel="stylesheet/less" type="text/css" href="../css/estilo.less" />-->
+    <!--<script src="../css/less.min.js" type="text/javascript"></script>-->
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+	<script src="../JavaScript/jquery-1.12.3.min.js"></script>
+	<link rel="stylesheet" href="../css/bootstrap-theme.min.css" >
+	<script src="../JavasScript/bootstrap.min.js" ></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css" >
+	<link rel="stylesheet" href="../css/estilos.css">
+	
+
+	
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#enviar").click(function (e) {
+            
+                var correo = $('#correo').val();
+                var nombre = $('#nombre').val();
+                var apellidos = $('#apellidos').val();
+                var edad = $('#edad').val();
+                var sexo = $('input:radio[name=sexo]:checked').val();
+                var password = $('#password').val();
+                var password2 = $('#con_password').val();
+                var imagen = $('#imagen').val().length;
+
+                
+                
+                //con este objeto conseguimos enviar la información del archivo a traves de ajax ya que de otra manera no se podrdia            
+                var formulario = $('#formulario');
+                var archivos = new FormData(formulario[0]);
+
+                if ($.trim(correo).length > 0 && $.trim(nombre).length > 0 && $.trim(apellidos).length >
+                    0 && $.trim(edad).length > 0 && $.trim(sexo).length > 0 && $.trim(password).length >
+                    0 && $.trim(imagen) > 0 && $.trim(password2).length > 0) {
+
+                    $.ajax({
+                        url: 'registro.php',
+                        method: "POST",
+                        data: archivos,
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function () {
+                            $('#enviar').val("Comprobando información...");
+                        },
+                        success: function (datos) {
+                           
+                            $('#enviar').val("Registrar")
+
+                           
+
+                            /*con esto sabremos si hubo un error o no, es decir si la respuesta del php nos devuelve un error
+                            no redirigiremos la pagina hacia la pagina bienvenido.php
+                            */
+                            if (datos.search("Error") == -1) {
+                                
+                                 $('#resultado').html('<div class="alert alert-success" role="alert">' + datos + "</div>");
+                                setTimeout(function () {
+                                    window.location.href = "loguin.html"; //ESTO NOS LLEVA AL FORMULARIO DE LOGUIN DADO QUE NOS ACABAMOS DE REGISTRAR EN ESTE FORMULARIO 
+                                }, 4000);
+                            } else {
+                                 $('#resultado').html('<div class="alert alert-danger" role="alert">' + datos + "</div>");
+                            }
+                        }
+                    });
+                } else {
+                    //Provisional comprobar si funciona correctamente
+                    $('#resultado').html('<div class="alert alert-danger" role="alert">Error: No puede haber campos vacios</div>');
+                    
+                }
+            });
+            $(document).keyup(function() {
+                
+                if (correo == "" && nombre == "" && apellidos == "" && edad == "" && sexo =="" && password) {
+                    
+                    $('#resultado').html('')
+                }
+            });
+        });
+    </script>
+
+</head>
+
+<body class="fondo">
+		<div class="container">
+			<div id="signupbox" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<div class="panel-title">Reg&iacute;strate</div>
+						<div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="loguin.html">Iniciar Sesi&oacute;n</a></div>
+					</div>  
+					
+					<div class="panel-body" >
+						
+						<form id="formulario" class="form-horizontal" role="form"  method="POST" autocomplete="on" >
+							<div class="form-group">
+								<label for="correo" class="col-md-3 control-label">Correo:</label>
+								<div class="col-md-9">
+									<input type="text" class="form-control" name="correo" id="correo" placeholder="Correo" required >
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="nombre" class="col-md-3 control-label">Nombre:</label>
+								<div class="col-md-9">
+									<input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre"  required >
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="usuario" class="col-md-3 control-label">Apellidos</label>
+								<div class="col-md-9">
+									<input type="text" class="form-control" name="apellidos" id="apellidos" placeholder="Apellidos" required>
+								</div>
+							</div>
+
+                            <div class="form-group">
+								<label for="edad" class="col-md-3 control-label">Fecha de nacimiento</label>
+								<div class="col-md-9">
+									<input type="date" class="form-control" name="edad" id="edad" placeholder="DD/MM/AAAA" required>
+								</div>
+							</div>
+
+                            <div class="form-group">
+								<label  class="col-md-3 control-label">Sexo</label>
+								<div class="col-md-9">
+									 <label for="radio1">hombre</label>
+                                <input type="radio" name="sexo" value="hombre" id="radio1">
+
+                                <label for="radio2">Mujer</label>
+                                <input type="radio" name="sexo" value="mujer" id="radio2">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="password" class="col-md-3 control-label">Contraseña</label>
+								<div class="col-md-9">
+                                    
+									<input type="password" class="form-control" name="password" placeholder="Password" id="password" required>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="con_password" class="col-md-3 control-label">Confirmar contraseña</label>
+								<div class="col-md-9">
+									<input type="password" class="form-control" name=password2 id="con_password" placeholder="Confirmar Password" required>
+								</div>
+							</div>
+							
+							<div class="form-group">
+                               
+
+								<label for="imagen" class="col-md-3 control-label">Imagen</label>
+								<div class="col-md-9">
+									<input type="file" name="imagen" id="imagen" required>
+								</div>
+							</div>
+							
+                             <div id="resultado">
+
+                            </div>
+							
+							<div class="form-group">                                      
+								<div class="col-md-offset-3 col-md-9">
+                                   
+									<input type="button" name="envio"  id="enviar" class="btn btn-info" class="icon-hand-right" value="Registrar"> 
+								</div>
+							</div>
+						</form>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
